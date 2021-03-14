@@ -1,24 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useRef, useEffect } from 'react'
+import axios from 'axios'
+import Recipe from './components/Recipe'
+import IngredientSearch from './components/IngredientSearch'
 
-function App() {
+
+const App = () => {
+
+  const [ingredients, setIngredients] = useState([])
+  
+
+  useEffect(() => {
+    axios
+    .get('http://localhost:3001/ingredients').then(response=> {           
+      setIngredients(response.data)     
+  })
+  },[])
+
+  const Create = () => {
+    console.log('TO DO - create recipe')
+  }
+   
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  <div>  
+    <h1>
+      Recipe bank
+    </h1>    
+      <div>
+        <IngredientSearch ingredients={ingredients} />              
+      </div>
+      <div>      
+      <button onClick={Create}>Create recipe</button>      
+      {Recipe()}
+      </div>
+  </div>
   );
 }
 

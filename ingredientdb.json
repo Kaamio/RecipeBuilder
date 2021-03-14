@@ -1,0 +1,25 @@
+{
+  "ingredients": [
+    {
+      "id": 1,
+      "name": "00_wheat",
+      "cost": "2",
+      "complexity": "1",
+      "usable": "true"
+    },
+    {
+      "id": 2,
+      "name": "caster_sugar",
+      "cost": "2",
+      "complexity": "1",
+      "usable": "true"
+    },
+    {
+      "id": 1,
+      "name": "dried_apricot",
+      "cost": "5",
+      "complexity": "4",
+      "usable": "false"
+    }
+  ]
+}
