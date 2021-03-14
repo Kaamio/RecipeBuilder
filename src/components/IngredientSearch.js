@@ -49,8 +49,7 @@ return (
     
     <div>
         <ul>
-            {shownIngredients.map(item => 
-                          
+            {shownIngredients.map(item =>                           
                 <Ingredient ingredient={item} />
               )} 
         </ul>

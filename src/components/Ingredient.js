@@ -3,8 +3,7 @@ import React, { useState, useRef, useEffect } from 'react'
 
 const Ingredient = (ingredient) => {
     
-    return (      
-                  
+    return (        
              <p>{ingredient.ingredient.name}</p>  
     )
 

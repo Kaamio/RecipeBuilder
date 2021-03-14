@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react'
-import axios from 'axios'
 import Recipe from './components/Recipe'
 import IngredientSearch from './components/IngredientSearch'
+
+import ingredientService from './services/ingredients'
 
 
 const App = () => {
@@ -10,8 +11,9 @@ const App = () => {
   
 
   useEffect(() => {
-    axios
-    .get('http://localhost:3001/ingredients').then(response=> {           
+    ingredientService
+    .getAll()
+    .then(response=> {           
       setIngredients(response.data)     
   })
   },[])
@@ -29,6 +31,7 @@ const App = () => {
       <div>
         <IngredientSearch ingredients={ingredients} />              
       </div>
+      
       <div>      
       <button onClick={Create}>Create recipe</button>      
       {Recipe()}
