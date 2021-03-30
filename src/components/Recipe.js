@@ -1,22 +1,24 @@
-import Dropdown from 'react-dropdown';
-import 'react-dropdown/style.css';
 import React from 'react'
-import axios from 'axios'
+import Ingredient from './Ingredient'
+import { useState, useRef, useEffect } from 'react'
+const Recipe = (props) => {
+   
+//console.log(props.currentRecipe)
 
-const Recipe = () => {
+const create = () => {
+    console.log('resepti')
+}
 
-
-const options = [
-    'one', 'two', 'three'
-    ];
-    
-const defaultOption = options[0];
-
-return (
-    <div>
-        <Dropdown options={options} onChange={console.log('aa')} value={defaultOption} placeholder="Select an option" />;
-    </div>
-    )
+    return ( <div> 
+        <ul>
+            {props.recipe.map(item =>                           
+                <p>{item}</p>
+            )} 
+        </ul>      
+                
+        <button onClick={() => create}> nappi </button>            
+        </div>  
+    )   
 }
 
 export default Recipe
