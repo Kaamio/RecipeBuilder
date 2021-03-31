@@ -1,22 +1,36 @@
 import React from 'react'
-import Ingredient from './Ingredient'
-import { useState, useRef, useEffect } from 'react'
-const Recipe = (props) => {
-   
-//console.log(props.currentRecipe)
+
+const Recipe = (props) => {   
+
+
 
 const create = () => {
-    console.log('resepti')
+    const recipeToCreate = {}
+    const elements = document.querySelectorAll('.recipeAmountInput')
+    for (let elem = 0; elem < elements.length; elem++) {       
+        recipeToCreate[elements[elem].id] = elements[elem].value      
+    }
+    // TO DO: Create recipe to database
+    console.log(recipeToCreate)
 }
 
-    return ( <div> 
+    return ( 
+    <div>
+
+        <form onSubmit={() => create()}>
+            <div>
         <ul>
+            <p>Recipe Name <input id='recipe_name' /> </p>
             {props.recipe.map(item =>                           
-                <p>{item}</p>
-            )} 
-        </ul>      
+                <li>{item} <input id = {item} maxLength="3" size="2" className = "recipeAmountInput"/> </li>                
+            )}
+            
+        </ul>     
+        </div>
+        <button type="submit">Create Recipe</button>
+        </form>        
                 
-        <button onClick={() => create}> nappi </button>            
+                
         </div>  
     )   
 }

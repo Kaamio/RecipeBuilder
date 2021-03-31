@@ -7,16 +7,15 @@ import axios from 'axios'
 const IngredientSearch = (props) => {
 
 
-
-
 return (
     <div>
         <div>        
-        <p>
+        <h2>
             Find ingredients
+        </h2>
             <input value = {props.searchState} onChange = {props.handleSearch}
             /> 
-        </p>
+        
         
     </div>   
     </div> 

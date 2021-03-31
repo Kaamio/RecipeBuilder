@@ -13,7 +13,7 @@ const App = () => {
   const [searchState, setSearchState ] = useState('')
   const [shownIngredients, setShownIngredients] = useState([])
   const [resultLength, setResultLength] = useState(0)
-  const [alertMessage, setAlertMessage] = useState('')
+  const [alertMessage, setAlertMessage] = useState(null)
 
   useEffect(() => {
     ingredientService
@@ -44,7 +44,7 @@ const App = () => {
 
   const handleRecipeAdd = (item) => {
     if (currentRecipe.includes(item)) {
-      setAlertMessage(`Ingredient ${item} is allready added to the recipe`)
+      setAlertMessage(`Ingredient ${item} is already added to the recipe`)
 
       setTimeout(() => {
         setAlertMessage(null)
@@ -74,10 +74,7 @@ const App = () => {
                 <Ingredient ingredient={item} handleRecipeAdd={handleRecipeAdd}/>
               )} 
         </ul>
-    </div>                
-      <div>      
-      <button onClick={Create}>Create recipe</button> 
-      </div>
+    </div>  
       <Recipe recipe={currentRecipe} saveRecipe={test}></Recipe>
   </div>
   );
