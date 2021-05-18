@@ -1,9 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
+import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom"
 import Recipe from './components/Recipe'
 import Alert from './components/Notification'
 import IngredientSearch from './components/IngredientSearch'
-import Ingredient from './components/Ingredient'
 import ingredientService from './services/ingredients'
+import recipeService from './services/recipes'
+import IngredientList from './components/IngredientList'
+import RecipeList from './components/RecipeList'
+import AvailableIngredients from './components/AvailableIngredients'
 
 
 const App = () => {
@@ -12,8 +16,8 @@ const App = () => {
   const [currentRecipe, setCurrentRecipe] = useState([])
   const [searchState, setSearchState ] = useState('')
   const [shownIngredients, setShownIngredients] = useState([])
-  const [resultLength, setResultLength] = useState(0)
   const [alertMessage, setAlertMessage] = useState(null)
+  const [recipes, setRecipes] = useState([])
 
   useEffect(() => {
     ingredientService
@@ -21,12 +25,12 @@ const App = () => {
     .then(response=> {           
       setIngredients(response.data)     
   })
+
+    recipeService
+    .getAll()
+    .then(response => 
+      setRecipes(response.data))
   },[])
-
-
-  const Create = (added_ingredient) => {
-    console.log("aea")
-  }
 
   
   const findIngredients = ({ingredients, searchState}) => {      
@@ -35,11 +39,11 @@ const App = () => {
     )
   }
 
-  const handleSearch = (event) => {
-    setSearchState(event.target.value) 
-    let result = findIngredients({ingredients, searchState})    
-    setResultLength(result.length)  
-    setShownIngredients(result)        
+  const handleSearch = (event) => {     
+    setSearchState(event.target.value)      
+    let result = findIngredients({ingredients, searchState})
+    setShownIngredients(result)      
+              
 }
 
   const handleRecipeAdd = (item) => {
@@ -54,29 +58,46 @@ const App = () => {
     setCurrentRecipe(currentRecipe.concat(item))
     }
   };
-   
-  const test = () => {
-    console.log('testifunktio')
+
+  const handleRemove = (item) => {      
+    setCurrentRecipe(currentRecipe.filter(ingredient => ingredient !== item))
   }
+  
 
   return (
+    <Router>
+      <div>
+        <Link to="/" className = "navigation">home</Link>
+        <Link to="/ingredients" className = "navigation"> Ingredients</Link>
+        <Link to="/recipes" className = "navigation">Recipes</Link>
+      </div>  
   <div>
     <Alert message = {alertMessage}></Alert>  
     <h1>
       Recipe bank
-    </h1>    
-      <div>
-        <IngredientSearch searchState={searchState} shownIngredients={shownIngredients} handleSearch={handleSearch} />              
-      </div>
-      <div>            
-        <ul>
-            {shownIngredients.map(item =>                           
-                <Ingredient ingredient={item} handleRecipeAdd={handleRecipeAdd}/>
-              )} 
-        </ul>
-    </div>  
-      <Recipe recipe={currentRecipe} saveRecipe={test}></Recipe>
+    </h1>
+    
+  <Switch> 
+    <Route path="/recipes">
+      <div>  
+        <RecipeList recipes = {recipes} />
+        </div>   
+      </Route>
+
+    <Route path = "/ingredients">
+      <AvailableIngredients ingredients={ingredients} />
+    </Route>
+
+    <Route path ="/"> 
+      <IngredientSearch searchState = {searchState} setSearchState = {setSearchState} handleSearch={handleSearch} />             
+      <IngredientList ingredients = {ingredients} currentIngredients = {shownIngredients} handleRecipeAdd = {handleRecipeAdd} />   
+      <Recipe recipe = {currentRecipe} ingredients={ingredients} setRecipes={setRecipes}  handleRemove = {handleRemove} setAlertMessage={setAlertMessage}/>
+    </Route>
+
+  </Switch>  
   </div>
+  </Router>
+
   );
 }
 

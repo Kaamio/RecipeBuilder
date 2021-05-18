@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/ingredients'
+const baseUrl = 'http://localhost:3001/api/ingredients'
 
 
 const getAll = () => {
@@ -13,6 +13,7 @@ const getAll = () => {
   const update = (id, newObject) => {
     return axios.put(`${baseUrl}/${id}`, newObject)
   }
+
   
   export default { 
     getAll: getAll, 

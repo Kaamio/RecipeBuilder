@@ -1,11 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react'
-import axios from 'axios'
-
-
-
+import React from 'react'
 
 const IngredientSearch = (props) => {
-
 
 return (
     <div>
@@ -14,9 +9,9 @@ return (
             Find ingredients
         </h2>
             <input value = {props.searchState} onChange = {props.handleSearch}
-            /> 
-        
-        
+            />  
+
+            
     </div>   
     </div> 
     )
