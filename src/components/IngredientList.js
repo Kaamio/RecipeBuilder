@@ -1,8 +1,9 @@
 import React from 'react'
-import Ingredient from './Ingredient'
+import Ingredient from './IngredientInRecipe'
 
 
 const IngredientList = ({ingredients, currentIngredients, handleRecipeAdd}) => {
+
 
 if (currentIngredients.length === 0) {
     return (
@@ -26,5 +27,5 @@ if (currentIngredients.length === 0) {
  )
 }
 
-
 export default IngredientList
+

@@ -8,10 +8,29 @@ import recipeService from './services/recipes'
 import IngredientList from './components/IngredientList'
 import RecipeList from './components/RecipeList'
 import AvailableIngredients from './components/AvailableIngredients'
-
+import styled from 'styled-components'
 
 const App = () => {
 
+  
+  const Navigation = styled.div`
+  background: #659DBD;
+  padding: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  `
+
+  const padding = {
+    padding: 5
+  }
+  /*
+  const Page = styled.div`
+  background: #DAAD86;
+  padding: 1em;
+  `
+   */
+ 
   const [ingredients, setIngredients] = useState([])  
   const [currentRecipe, setCurrentRecipe] = useState([])
   const [searchState, setSearchState ] = useState('')
@@ -22,10 +41,11 @@ const App = () => {
   useEffect(() => {
     ingredientService
     .getAll()
-    .then(response=> {           
-      setIngredients(response.data)     
-  })
-
+    .then(response=>            
+      setIngredients(response.data))
+    }, [])     
+  
+    useEffect(() => {  
     recipeService
     .getAll()
     .then(response => 
@@ -66,11 +86,11 @@ const App = () => {
 
   return (
     <Router>
-      <div>
-        <Link to="/" className = "navigation">home</Link>
-        <Link to="/ingredients" className = "navigation"> Ingredients</Link>
-        <Link to="/recipes" className = "navigation">Recipes</Link>
-      </div>  
+      <Navigation>
+        <Link style={padding} to="/" >Home</Link>
+        <Link style={padding} to="/ingredients" > Ingredients</Link>
+        <Link style={padding} to="/recipes" >Recipes</Link>
+      </Navigation>  
   <div>
     <Alert message = {alertMessage}></Alert>  
     <h1>
@@ -85,7 +105,7 @@ const App = () => {
       </Route>
 
     <Route path = "/ingredients">
-      <AvailableIngredients ingredients={ingredients} />
+      <AvailableIngredients ingredients = {ingredients} alertMessage = {alertMessage} setAlertMessage = {setAlertMessage} setIngredients={setIngredients}/>
     </Route>
 
     <Route path ="/"> 
@@ -102,3 +122,4 @@ const App = () => {
 }
 
 export default App;
+

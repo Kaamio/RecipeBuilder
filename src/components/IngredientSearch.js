@@ -10,7 +10,6 @@ return (
         </h2>
             <input value = {props.searchState} onChange = {props.handleSearch}
             />  
-
             
     </div>   
     </div> 

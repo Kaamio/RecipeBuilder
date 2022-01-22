@@ -9,7 +9,7 @@ const Recipe = (props) => {
         .getAll()
         .then(response => 
         props.setRecipes(response.data))     
-      })
+      },[] )
 
     const ingredientsInRecipe = props.ingredients.filter(item => props.recipe.includes(item.name))   
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
