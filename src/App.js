@@ -10,10 +10,8 @@ import RecipeList from './components/RecipeList'
 import AvailableIngredients from './components/AvailableIngredients'
 import styled from 'styled-components'
 
-const App = () => {
 
-  
-  const Navigation = styled.div`
+const Navigation = styled.div`
   background: #659DBD;
   padding: 1em;
   display: flex;
@@ -21,9 +19,29 @@ const App = () => {
   align-items: center;  
   `
 
+const RecipePage = styled.div`
+display: grid;
+row-gap: 1px;
+grid-template-columns:50% 50%;
+`
+
+const StyledIngredientList = styled.div`
+grid-column-start: 1;
+grid-column-end: 1;
+`
+
+const StyledRecipe = styled.div`
+grid-column-start: 2;
+grid-column-end: 2;
+`
+const App = () => {  
+  
+
   const padding = {
     padding: 5
   }
+
+
   /*
   const Page = styled.div`
   background: #DAAD86;
@@ -94,7 +112,7 @@ const App = () => {
   <div>
     <Alert message = {alertMessage}></Alert>  
     <h1>
-      Recipe bank
+      Recipe bank      
     </h1>
     
   <Switch> 
@@ -108,12 +126,17 @@ const App = () => {
       <AvailableIngredients ingredients = {ingredients} alertMessage = {alertMessage} setAlertMessage = {setAlertMessage} setIngredients={setIngredients}/>
     </Route>
 
-    <Route path ="/"> 
-      <IngredientSearch searchState = {searchState} setSearchState = {setSearchState} handleSearch={handleSearch} />             
-      <IngredientList ingredients = {ingredients} currentIngredients = {shownIngredients} handleRecipeAdd = {handleRecipeAdd} />   
+    <Route path ="/">
+      <RecipePage> 
+      <IngredientSearch searchState = {searchState} setSearchState = {setSearchState} handleSearch={handleSearch} />
+      <StyledIngredientList>          
+      <IngredientList ingredients = {ingredients} currentIngredients = {shownIngredients} handleRecipeAdd = {handleRecipeAdd} /> 
+      </StyledIngredientList>
+      <StyledRecipe>   
       <Recipe recipe = {currentRecipe} ingredients={ingredients} setRecipes={setRecipes}  handleRemove = {handleRemove} setAlertMessage={setAlertMessage}/>
-    </Route>
-
+      </StyledRecipe>  
+      </RecipePage>
+      </Route>
   </Switch>  
   </div>
   </Router>

@@ -1,9 +1,44 @@
 import React, { useEffect } from 'react'
 import RecipeService from '../services/recipes'
+import styled  from 'styled-components'
 
+
+const CurrentRecipe = styled.div`
+
+`
+
+const RecipeName = styled.input`
+font-size: 20px;
+padding: 12px 20px;
+margin: 8px 0;
+box-sizing: border-box;
+border: 4px solid #db4f1d;
+border-radius: 4px;
+`
+
+const CreateButton = styled.button`
+background-color: #008CBA;
+border: none;
+color: white;
+padding: 15px 32px;
+margin-top: 10px;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+font-size: 20px;
+&:hover {
+    color:blue;
+    cursor:pointer;
+}
+`
+
+const RecipeTableRow = styled.td`
+padding:15px;
+
+`
 
 const Recipe = (props) => {   
-    
+      
     useEffect(() => {
         RecipeService
         .getAll()
@@ -15,11 +50,8 @@ const Recipe = (props) => {
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
     
 
-    const create = (recipename) => {         
-        
+    const create = async (recipename) => { 
         let costs = ingredientsInRecipe.map(ingredient => ingredient.cost)
-
-
         const recipeToCreate = {}
 
         const elements = document.querySelectorAll('.recipeAmountInput')
@@ -32,12 +64,18 @@ const Recipe = (props) => {
             ingredients : [recipeToCreate],
             totalcost: costs.reduce(reducer)
         }
-        
-        RecipeService.create(recipe)
+        const response = await RecipeService.create(recipe)
+        if (response.status === 200) {
         props.setAlertMessage(`Recipe ${recipe.name} created!`)
         setTimeout(() => {
             props.setAlertMessage(null)
-          }, 5000)
+          }, 5000)  
+            } else {
+                props.setAlertMessage(response.error)
+                setTimeout(() => {
+                  props.setAlertMessage(null)
+                }, 5000)        
+          }
     }
 
     if(props.recipe.length === 0 ) {
@@ -47,18 +85,24 @@ const Recipe = (props) => {
     return ( 
     <div>       
         <div>
-            <p>Recipe Name <input id='recipe_name'/> </p>
-            <ul>            
+            <RecipeName id='recipe_name' placeholder="Give a name to your recipe!"/>             
+            <table>
+                <tr>
+                  <th>Ingredient</th> 
+                  <th>Grams</th>
+                  <th>Remove</th>
+                </tr>            
             {props.recipe.map(item =>                           
-                <li>
-                {item} <input id = {item} maxLength="3" size="2" className = "recipeAmountInput"/> 
-                <button onClick = {() => props.handleRemove(item)}>Remove</button> 
-                </li>                
+                <tr>
+                <RecipeTableRow>{item}</RecipeTableRow> 
+                <RecipeTableRow><input id = {item} maxLength="3" size="2" className = "recipeAmountInput"/></RecipeTableRow>
+                <RecipeTableRow><button onClick = {() => props.handleRemove(item)}>Click to remove</button></RecipeTableRow>
+                </tr>                
             )}
             
-        </ul>     
+        </table>     
         </div>
-        <button onClick = {() => create(document.querySelectorAll('#recipe_name')[0].value)}>Create</button>
+        <CreateButton onClick = {() => create(document.querySelectorAll('#recipe_name')[0].value)}>Create recipe</CreateButton>
              
         </div>  
     )   

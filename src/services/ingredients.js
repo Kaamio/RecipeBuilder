@@ -7,9 +7,8 @@ const getAll = () => {
   }
   
   const create = (newObject) => {   
-      return axios.post(baseUrl, newObject).catch((error) => {
-        return (error.response.data);
-        
+      return axios.post(baseUrl, newObject).catch((error) => {    
+        return (error.response.data);        
       })
 }
   
@@ -18,8 +17,7 @@ const getAll = () => {
   }
 
   
-  const remove = (id) => {
-    console.log(id)
+  const remove = (id) => {     
     return axios.delete(`${baseUrl}/${id}`)
   }
 
