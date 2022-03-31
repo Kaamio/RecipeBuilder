@@ -2,11 +2,10 @@ import React, { useEffect } from 'react'
 import RecipeService from '../services/recipes'
 import styled  from 'styled-components'
 
+import StyledInput from './elements/input'
+import StyledButton from './elements/button'
 
-const CurrentRecipe = styled.div`
-
-`
-
+/*
 const RecipeName = styled.input`
 font-size: 20px;
 padding: 12px 20px;
@@ -31,7 +30,7 @@ font-size: 20px;
     cursor:pointer;
 }
 `
-
+*/
 const RecipeTableRow = styled.td`
 padding:15px;
 
@@ -85,24 +84,25 @@ const Recipe = (props) => {
     return ( 
     <div>       
         <div>
-            <RecipeName id='recipe_name' placeholder="Give a name to your recipe!"/>             
+            <StyledInput id='recipe_name' placeholder="Give a name to your recipe!"/>             
             <table>
+                <tbody>
                 <tr>
                   <th>Ingredient</th> 
                   <th>Grams</th>
                   <th>Remove</th>
                 </tr>            
-            {props.recipe.map(item =>                           
+            {props.recipe.map(item =>                        
                 <tr>
-                <RecipeTableRow>{item}</RecipeTableRow> 
-                <RecipeTableRow><input id = {item} maxLength="3" size="2" className = "recipeAmountInput"/></RecipeTableRow>
-                <RecipeTableRow><button onClick = {() => props.handleRemove(item)}>Click to remove</button></RecipeTableRow>
+                <RecipeTableRow key ={item.id}>{item}</RecipeTableRow> 
+                <RecipeTableRow key ={item.id}><input id = {item} maxLength="3" size="2" className = "recipeAmountInput"/></RecipeTableRow>
+                <RecipeTableRow key ={item.id}><button onClick = {() => props.handleRemove(item)}>Click to remove</button></RecipeTableRow>
                 </tr>                
             )}
-            
+          </tbody>  
         </table>     
         </div>
-        <CreateButton onClick = {() => create(document.querySelectorAll('#recipe_name')[0].value)}>Create recipe</CreateButton>
+        <StyledButton onClick = {() => create(document.querySelectorAll('#recipe_name')[0].value)}>Create recipe</StyledButton>
              
         </div>  
     )   

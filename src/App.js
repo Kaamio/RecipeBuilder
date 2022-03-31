@@ -10,6 +10,8 @@ import RecipeList from './components/RecipeList'
 import AvailableIngredients from './components/AvailableIngredients'
 import styled from 'styled-components'
 
+import StyledHeading1 from './components/elements/h1'
+
 
 const Navigation = styled.div`
   background: #659DBD;
@@ -30,6 +32,7 @@ grid-column-start: 1;
 grid-column-end: 1;
 `
 
+
 const StyledRecipe = styled.div`
 grid-column-start: 2;
 grid-column-end: 2;
@@ -47,12 +50,12 @@ const App = () => {
   background: #DAAD86;
   padding: 1em;
   `
-   */
+  */
  
   const [ingredients, setIngredients] = useState([])  
-  const [currentRecipe, setCurrentRecipe] = useState([])
+  const [currentRecipe, setCurrentRecipe] = useState([])  
   const [searchState, setSearchState ] = useState('')
-  const [shownIngredients, setShownIngredients] = useState([])
+  const [showAll, setShowAll] = useState(true) 
   const [alertMessage, setAlertMessage] = useState(null)
   const [recipes, setRecipes] = useState([])
 
@@ -61,26 +64,22 @@ const App = () => {
     .getAll()
     .then(response=>            
       setIngredients(response.data))
-    }, [])     
-  
-    useEffect(() => {  
+    }, [])   
+
+  useEffect(() => {  
     recipeService
     .getAll()
     .then(response => 
       setRecipes(response.data))
   },[])
 
-  
-  const findIngredients = ({ingredients, searchState}) => {      
-    return (
-    ingredients.filter(ingredient =>ingredient.name.toLowerCase().includes(searchState.toLowerCase()))
-    )
-  }
-
-  const handleSearch = (event) => {     
-    setSearchState(event.target.value)      
-    let result = findIngredients({ingredients, searchState})
-    setShownIngredients(result)      
+  const handleSearch = async (event) => { 
+    setSearchState(event.target.value)
+    if(searchState !== '') {
+      setShowAll(false)
+      } else {
+        setShowAll(true)
+      }  
               
 }
 
@@ -92,8 +91,8 @@ const App = () => {
         setAlertMessage(null)
       }, 5000)
     }
-    else {
-    setCurrentRecipe(currentRecipe.concat(item))
+    else {      
+      setCurrentRecipe(currentRecipe.concat(item))
     }
   };
 
@@ -111,9 +110,9 @@ const App = () => {
       </Navigation>  
   <div>
     <Alert message = {alertMessage}></Alert>  
-    <h1>
+    <StyledHeading1>
       Recipe bank      
-    </h1>
+    </StyledHeading1>
     
   <Switch> 
     <Route path="/recipes">
@@ -130,7 +129,7 @@ const App = () => {
       <RecipePage> 
       <IngredientSearch searchState = {searchState} setSearchState = {setSearchState} handleSearch={handleSearch} />
       <StyledIngredientList>          
-      <IngredientList ingredients = {ingredients} currentIngredients = {shownIngredients} handleRecipeAdd = {handleRecipeAdd} /> 
+      <IngredientList ingredients = {ingredients} searchState = {searchState} showAll={showAll} handleRecipeAdd = {handleRecipeAdd} /> 
       </StyledIngredientList>
       <StyledRecipe>   
       <Recipe recipe = {currentRecipe} ingredients={ingredients} setRecipes={setRecipes}  handleRemove = {handleRemove} setAlertMessage={setAlertMessage}/>

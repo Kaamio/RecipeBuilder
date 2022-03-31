@@ -2,30 +2,18 @@ import React from 'react'
 import Ingredient from './IngredientInRecipe'
 
 
-const IngredientList = ({ingredients, currentIngredients, handleRecipeAdd}) => {
+const IngredientList = ({ingredients, searchState,  showAll, handleRecipeAdd}) => {
 
-
-if (currentIngredients.length === 0) {
+const showFiltered = ({ingredients, searchState}) => {      
     return (
-        <div>         
-        <ul>
-        {ingredients.map(item =>                           
-            <Ingredient  ingredient={item} handleRecipeAdd={handleRecipeAdd}/>
-          )} 
-    </ul>
-    </div>
+    ingredients.filter(ingredient =>ingredient.name.toLowerCase().includes(searchState.toLowerCase()))
     )
-}
- return (
-     <div>         
-    <ul>
-    {currentIngredients.map(item =>                           
-        <Ingredient ingredient={item} handleRecipeAdd={handleRecipeAdd} />
-      )} 
-</ul>
-</div>
- )
-}
+  }
+
+ return( showAll ? ingredients.map(item =>
+    <Ingredient key = {item.name} ingredient={item} handleRecipeAdd={handleRecipeAdd} />)
+    : showFiltered({ingredients , searchState}).map(item =>  <Ingredient key = {item.name} ingredient={item} handleRecipeAdd={handleRecipeAdd} />)
+    )}
 
 export default IngredientList
 

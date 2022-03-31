@@ -1,6 +1,7 @@
 import React from 'react'
 import styled  from 'styled-components'
-import Button from './elements/button'
+import StyledButton from './elements/button'
+import { format,parseISO } from 'date-fns'
 
 const AddIngredient= styled.div`
 padding: 1em;
@@ -34,39 +35,26 @@ grid-row-end: 2;
 margin-bottom: 3px;
 `
 
-const AddButton = styled.button`
-background-color: #008CBA;
-border: none;
-color: white;
-padding: 15px 32px;
-text-align: center;
-text-decoration: none;
-display: inline-block;
-font-size: 20px;
-grid-column-start: 1;
-grid-column-end: 4;
-&:hover {
-    color:blue;
-    cursor:pointer;
-}
-`
 
-const Ingredient = (props) => {    
-    
+const Ingredient = (props) => {        
+   
+
     return ( 
             <div> 
              <AddIngredient>                       
                 <IngredientName>              
                     {props.ingredient.name}
-                </IngredientName> 
-                    
+                </IngredientName>                     
                 <Attributes>
+                    <p>Created: {format(parseISO(props.ingredient.created), 'dd.MM.yyyy')}</p>
+                    <p>Category: {props.ingredient.category}</p>
                     <p>Price: {props.ingredient.cost}</p>
+                    <p>Unit: {props.ingredient.unit}</p>
                     <p>Complexity: {props.ingredient.complexity}</p>
                 </Attributes>                   
                 <IngredientImage alt='pic of ingredient' width="128" src={props.ingredient.pic} />
                     <br/>
-                    <AddButton onClick = {() => props.handleRecipeAdd(props.ingredient.name)}>Add</AddButton>            
+                    <StyledButton  onClick = {() => props.handleRecipeAdd(props.ingredient.name)}> Add  </StyledButton>            
                 
              </AddIngredient>                        
              </div>  
@@ -76,4 +64,5 @@ const Ingredient = (props) => {
 export default Ingredient
 
 
-//<Button action = {props.handleRecipeAdd()} target={props.ingredient.name} text="Add" />
+
+//<AddButton onClick = {() => props.handleRecipeAdd(props.ingredient.name)}>Add</AddButton>  

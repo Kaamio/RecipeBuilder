@@ -19,6 +19,8 @@ grid-column-end: 4;
 }
 `
 
+export default StyledButton
+/*
 const Button = (props) => {
     return (   
     <StyledButton onClick = {() => props.action(props.target)}> {props.text} </StyledButton>
@@ -27,3 +29,4 @@ const Button = (props) => {
 
 
 export default Button
+*/

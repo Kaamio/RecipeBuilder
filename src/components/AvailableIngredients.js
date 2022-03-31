@@ -29,8 +29,10 @@ const AvailableIngredients = ({ingredients, alertMessage, setAlertMessage, setIn
       }    
 
       const namefield = useField('text')
+      const categoryfield = useField('text')
       const costfield = useField('number')
       const complexityfield = useField('number')
+      const unitfield = useField('text')
       const picfield = useField('text')
       
 
@@ -56,9 +58,12 @@ const AvailableIngredients = ({ingredients, alertMessage, setAlertMessage, setIn
         
         const newIngredient = {
             name : namefield.value,
+            category: categoryfield.value,
             cost : costfield.value,
-            pic : picfield.value,
-            complexity: complexityfield.value            
+            unit: unitfield.value,
+            pic : picfield.value,            
+            complexity: complexityfield.value
+                        
         }       
        
         const response = await IngredientService.create(newIngredient)              
@@ -92,16 +97,25 @@ return (
           Name:
           <Input {...namefield} />
           <br/>
+          Category:
+          <Input {...categoryfield} />
+          <br/>
           Cost:
           <Input {...costfield} />
           <br/>
           Complexity:
           <Input {...complexityfield} />
-          <br/>        
+          <br/>
+          Unit:
+          <select {...unitfield}>
+            <option value="Kg">Kg</option>
+            <option value="L">L</option>
+            <option value="Kpl">Kpl</option>            
+          </select>
+          <br/>                    
           Link to ingredient picture
           <Input {...picfield} />
-          <br/>
-          <FileUpload />     
+          <br/>            
         <button>Add new</button>
       </form> 
 
